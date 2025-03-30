@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useState } from 'react'
-import { LuCalendarHeart } from "react-icons/lu";
 import {
   AiFillEye,
   AiFillEyeInvisible,
@@ -16,6 +15,7 @@ const Input = ({
   onChange,
   error,
   placeholder,
+  auxLabel,
   onBlur,
   maxLength,
   className,
@@ -29,12 +29,6 @@ const Input = ({
         return <AiFillMail className='text-gray-500' size={18} />
       case 'password':
         return <AiFillLock className='text-gray-500' size={20} />
-      case 'date':
-        return (
-          <InputIconFloating>
-            <LuCalendarHeart />
-          </InputIconFloating>
-        )
       default:
         return <></>
     }
@@ -43,16 +37,18 @@ const Input = ({
   return (
     <label
       className={clsx(
-        'flex px-3 items-center gap-2 rounded-md bg-gray-50 border',
+        'flex px-3 items-center gap-2 rounded-md bg-gray-50 border relative',
         {
           'border-gray-300 focus-within:ring-blue-500 focus-within:border-blue-500 hover:border-blue-500': !(error),
           'border-red-500 focus-within:border-red-500 hover:border-red-500': error,
+          'mt-6': auxLabel,
         },
         className,
       )}
       error={error}
       {...props}
     >
+      {auxLabel && <span className='absolute left-0 -top-6 text-sm text-gray-600'>{auxLabel}</span>}
       {getTypeIcon()}
 
       <input
