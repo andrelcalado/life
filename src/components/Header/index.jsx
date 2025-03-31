@@ -2,6 +2,7 @@ import React from 'react'
 import Button from '../Button'
 import Image from 'next/image'
 import useHeader from './useHeader'
+import { MdLogout } from "react-icons/md";
 
 const Header = () => {
   const { handleLogout } = useHeader();
@@ -18,8 +19,8 @@ const Header = () => {
 
         <Button
           onClick={handleLogout}
-          variation='solid-secondary'
-          text="Desconectar"
+          variation='solid-dangerous'
+          prefix={<MdLogout size={20} />}
         />
       </div>
     </header>

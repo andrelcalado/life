@@ -17,7 +17,7 @@ const ConfirmDialog = ({
   
   return (
     <div className={clsx(
-      "fixed inset-0 z-999 min-h-full overflow-y-auto overflow-x-hidden transition flex items-center transition duration-300 ease-in-out",
+      "fixed inset-0 z-999 min-h-full overflow-y-auto overflow-x-hidden transition flex items-center transition duration-300 ease-in-out p-5 md:p-10",
       {
         "opacity-0 pointer-events-none": !openDialog,
         "opacity-100 pointer-events-auto": openDialog
