@@ -18,7 +18,7 @@ import Badge from "@/components/Badge";
 import { datetimeToString } from "@/utils/dateFormat";
 import MapTracking from "@/components/MapTracking";
 
-const Dashboard = () => {
+export default function Dashboard() {
   const {
     vehiclesData,
     screenFeedback,
@@ -226,5 +226,3 @@ const Dashboard = () => {
     </>
   )
 }
-
-export default Dashboard
