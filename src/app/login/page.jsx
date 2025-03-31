@@ -20,17 +20,17 @@ export default function Login() {
   } = useLogin();
 
   return (
-    <main className="flex items-center justify-center bg-gray-100 h-screen">
-      <section className="rounded-lg overflow-hidden shadow-lg grid grid-cols-2 max-w-[900px]">
-        <div className="bg-white p-10 w-full">
+    <main className="flex items-center p-5 justify-center bg-gray-100 min-h-screen h-full sm:p-10">
+      <section className="rounded-lg overflow-hidden shadow-lg grid grid-cols-1 max-w-[900px] sm:grid-cols-2">
+        <div className="bg-white p-6 w-full sm:p-10">
           <Image
-            className="mb-6"
+            className="mb-4 sm:mb-6"
             src="/assets/images/logo-sm.png"
             alt="Life logo"
             width={35}
             height={35}
           />
-          <h1 className="text-2xl font-bold text-sky-950">Acesse sua conta</h1>
+          <h1 className="text-xl font-bold text-sky-950 sm:text-2xl">Acesse sua conta</h1>
           <p className="text-sm text-sky-950 pb-4 mb-4 border-b border-gray-300">Gerencie suas operações logísticas com eficiência.</p>
 
           <Input
