@@ -8,8 +8,16 @@ const INITIAL_SCREEN_FEEDBACK = {
   visible: false,
 }
 
+const INITIAL_MAP_TRACKING = {
+  openModal: false,
+  vehicleID: '',
+  latitude: -23.5505,
+  longitude: -46.6333,
+}
+
 const useDashboard = () => {
   const user = userStore((state) => state.user);
+  const [mapTracking, setMapTracking] = useState(INITIAL_MAP_TRACKING);
   const [screenLoading, setScreenLoading] = useState(false);
   const [screenFeedback, setScreenFeedback] = useState(INITIAL_SCREEN_FEEDBACK);
   const [vehiclesData, setVehiclesData] = useState([]);
@@ -41,6 +49,19 @@ const useDashboard = () => {
 
   const handleCancelDeleteVehicle = () => {
     setConfirmDialog((prev) => ({...prev, openDialog: false}));
+  }
+
+  const handleCloseMapTracking = () => {
+    setMapTracking(INITIAL_MAP_TRACKING);
+  }
+
+  const handleOpenMapTracking = (vehicle) => {
+    setMapTracking({
+      openModal: true,
+      vehicleID: vehicle.id,
+      latitude: vehicle.ultima_latitude,
+      longitude: vehicle.ultima_longitude
+    });
   }
 
   const [confirmDialog, setConfirmDialog] = useState({
@@ -124,7 +145,6 @@ const useDashboard = () => {
 
   return {
     screenLoading,
-    user,
     vehiclesData,
     search,
     setSearch,
@@ -139,7 +159,10 @@ const useDashboard = () => {
     loadVehicles,
     screenFeedback,
     setScreenFeedback,
-  }    
+    mapTracking,
+    handleOpenMapTracking,
+    handleCloseMapTracking
+  }
 }
 
 export default useDashboard

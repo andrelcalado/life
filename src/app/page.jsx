@@ -13,15 +13,14 @@ import Input from "@/components/Input";
 import Toggle from "@/components/Toggle";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import VehicleModal from "@/components/VehicleModal";
-import { useState } from "react";
 import { Chart } from "@/components/Chart";
 import BigNumberLabel from "@/components/BigNumberLabel";
 import Badge from "@/components/Badge";
 import { datetimeToString } from "@/utils/dateFormat";
+import MapTracking from "@/components/MapTracking";
 
 export default function Home() {
   const {
-    user,
     screenLoading,
     vehiclesData,
     search,
@@ -37,6 +36,9 @@ export default function Home() {
     loadVehicles,
     screenFeedback,
     setScreenFeedback,
+    mapTracking,
+    handleOpenMapTracking,
+    handleCloseMapTracking,
   } = useDashboard();
 
   const vehiclesDataFiltered = vehiclesData?.filter((eachVehicle) =>
@@ -59,6 +61,7 @@ export default function Home() {
           loadVehicles={loadVehicles}
           setScreenFeedback={setScreenFeedback}
         />
+        <MapTracking onClose={handleCloseMapTracking} {...mapTracking} />
 
         <section className="w-full max-w-[750px] mx-auto bg-white rounded-lg shadow-lg p-6 mt-10">
           <h2 className="text-2xl font-semibold text-center mb-6">
@@ -175,7 +178,13 @@ export default function Home() {
                           setVehicleModal(true);
                         }}
                       />
-                      <Button size="xs" variation="border" prefix={<FaEye size={15} />} />
+                      <Button
+                        size="xs"
+                        variation="border"
+                        prefix={<FaEye size={15} />}
+                        onClick={() => handleOpenMapTracking(vehicle)}
+                        disabled={!vehicle.ultima_latitude || !vehicle.ultima_longitude}
+                      />
                       <Button
                         size="xs"
                         variation="solid-dangerous"

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { IoMdClose } from "react-icons/io";
 import Button from '../Button';
 import useVehicleModal from './useVehicleModal';
