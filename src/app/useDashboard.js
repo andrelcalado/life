@@ -1,6 +1,6 @@
+import { useEffect, useState, useContext, createContext } from 'react'
 import { redirect } from 'next/navigation';
 import { userStore } from '@/store/user'
-import { useEffect, useState } from 'react'
 
 const INITIAL_SCREEN_FEEDBACK = {
   type: 'success',
@@ -15,12 +15,62 @@ const INITIAL_MAP_TRACKING = {
   longitude: -46.6333,
 }
 
-const useDashboard = () => {
-  const user = userStore((state) => state.user);
-  const [mapTracking, setMapTracking] = useState(INITIAL_MAP_TRACKING);
-  const [screenLoading, setScreenLoading] = useState(false);
+const DashboardContext = createContext();
+
+export const DashboardProvider = ({ children }) => {
   const [screenFeedback, setScreenFeedback] = useState(INITIAL_SCREEN_FEEDBACK);
+  const [screenLoading, setScreenLoading] = useState(false);
   const [vehiclesData, setVehiclesData] = useState([]);
+  const user = userStore((state) => state.user);
+
+  const loadVehicles = async () => {
+    setScreenLoading(true);
+    
+    try {
+      const response = await fetch('/api/vehicles', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user.access}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setVehiclesData(data.data);
+      }
+    } catch (error) {
+      console.error('Erro ao carregar veículos:', error);
+    } finally {
+      setScreenLoading(false);
+    }
+  }
+
+  const value = {
+    screenFeedback,
+    setScreenFeedback,
+    loadVehicles,
+    vehiclesData,
+    screenLoading,
+  };
+
+  return (
+    <DashboardContext.Provider value={value}>
+      {children}
+    </DashboardContext.Provider>
+  )
+}
+
+export const useDashboardContext = () => useContext(DashboardContext);
+
+export const useDashboard = () => {
+  const user = userStore((state) => state.user);
+  const {
+    setScreenFeedback,
+    vehiclesData,
+    loadVehicles,
+  } = useDashboardContext();
+  const [mapTracking, setMapTracking] = useState(INITIAL_MAP_TRACKING);
   const [search, setSearch] = useState("");
   const [vehicleModal, setVehicleModal] = useState(false);
   const [vehicleToEdit, setVehicleToEdit] = useState();
@@ -73,29 +123,6 @@ const useDashboard = () => {
     onClose: handleCancelDeleteVehicle,
   });
 
-  const loadVehicles = async () => {
-    setScreenLoading(true);
-    
-    try {
-      const response = await fetch('/api/vehicles', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${user.access}`,
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setVehiclesData(data.data);
-      }
-    } catch (error) {
-      console.error('Erro ao carregar veículos:', error);
-    } finally {
-      setScreenLoading(false);
-    }
-  }
-
   const handleDeleteVehicle = async (vehicleID) => {
     setConfirmDialog((prev) => ({
       ...prev,
@@ -145,8 +172,6 @@ const useDashboard = () => {
   }, []);  
 
   return {
-    screenLoading,
-    vehiclesData,
     search,
     setSearch,
     confirmDialog,
@@ -158,12 +183,8 @@ const useDashboard = () => {
     setVehicleToEdit,
     firstChart,
     loadVehicles,
-    screenFeedback,
-    setScreenFeedback,
     mapTracking,
     handleOpenMapTracking,
     handleCloseMapTracking
   }
 }
-
-export default useDashboard

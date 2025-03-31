@@ -1,5 +1,6 @@
-import { userStore } from '@/store/user';
 import { useState, useEffect } from 'react'
+import { userStore } from '@/store/user';
+import { useDashboardContext } from '@/app/useDashboard';
 
 const VEHICLE_DATA_INITIAL_STATE = {
   codigo: '',
@@ -13,8 +14,9 @@ const VEHICLE_DATA_INITIAL_STATE = {
   is_online: false
 }
 
-const useVehicleModal = (openModal, vehicleToEdit, onClose, loadVehicles, setScreenFeedback) => {
+const useVehicleModal = (openModal, vehicleToEdit, onClose) => {
   const user = userStore((state) => state.user);
+  const { setScreenFeedback, loadVehicles } = useDashboardContext();
   const [submitError, setSubmitError] = useState("");
   const [submitLoading, setSubmitLoading] = useState(false);
   const [vehicleData, setVehicleData] = useState(VEHICLE_DATA_INITIAL_STATE);

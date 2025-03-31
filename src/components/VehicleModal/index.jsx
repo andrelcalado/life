@@ -12,8 +12,6 @@ const VehicleModal = ({
   vehicleToEdit,
   openModal,
   onClose,
-  loadVehicles,
-  setScreenFeedback,
 }) => {
   const {
     handleCreateVehicle,
@@ -22,7 +20,7 @@ const VehicleModal = ({
     vehicleData,
     handleChange,
     submitError,
-  } = useVehicleModal(openModal, vehicleToEdit, onClose, loadVehicles, setScreenFeedback);
+  } = useVehicleModal(openModal, vehicleToEdit, onClose);
   
   return (
     <div className={clsx(
@@ -45,7 +43,7 @@ const VehicleModal = ({
             {vehicleToEdit ? "Editar Veículo" : "Criar Veículo"}
           </h2>
 
-          <p className="text-gray-500 text-sm max-w-[240px] mx-auto md:text-base">
+          <p className="text-gray-500 text-sm max-w-[240px] mx-auto md:text-base md:max-w-[400px]">
             Preencha os campos abaixo para {vehicleToEdit ? "editar" : "criar"} o veículo.
           </p>
         </div>
