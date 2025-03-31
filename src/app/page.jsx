@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Chart from "react-apexcharts";
 import useDashboard from "./useDashboard";
 import { IoMdAdd } from "react-icons/io";
 import { GrUpdate } from "react-icons/gr";
@@ -15,6 +14,10 @@ import Toggle from "@/components/Toggle";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import VehicleModal from "@/components/VehicleModal";
 import { useState } from "react";
+import { Chart } from "@/components/Chart";
+import BigNumberLabel from "@/components/BigNumberLabel";
+import Badge from "@/components/Badge";
+import { datetimeToString } from "@/utils/dateFormat";
 
 export default function Home() {
   const {
@@ -31,11 +34,13 @@ export default function Home() {
     vehicleToEdit,
     setVehicleToEdit,
     firstChart,
-    secondChart,
+    loadVehicles,
+    screenFeedback,
+    setScreenFeedback,
   } = useDashboard();
 
-  const vehiclesDataFiltered = vehiclesData.filter((eachVehicle) =>
-    eachVehicle.user.toLowerCase().includes(search.toLowerCase())
+  const vehiclesDataFiltered = vehiclesData?.filter((eachVehicle) =>
+    String(eachVehicle.user).includes(search.toLowerCase())
     || eachVehicle.placa.toLowerCase().includes(search.toLowerCase())
     || eachVehicle.codigo.toLowerCase().includes(search.toLowerCase())
   );
@@ -51,20 +56,51 @@ export default function Home() {
           vehicleToEdit={vehicleToEdit}
           openModal={vehicleModal}
           onClose={() => setVehicleModal(false)}
+          loadVehicles={loadVehicles}
+          setScreenFeedback={setScreenFeedback}
         />
 
-        <section className="w-full max-w-[1220px] mx-auto bg-white rounded-lg shadow-lg p-6 mt-10">
+        <section className="w-full max-w-[750px] mx-auto bg-white rounded-lg shadow-lg p-6 mt-10">
           <h2 className="text-2xl font-semibold text-center mb-6">
             Estatísticas dos Veículos
           </h2>
 
-          <div className="flex justify-center gap-4">
-            <Chart options={firstChart.options} series={firstChart.series} type="donut" width={480} />
-            <Chart options={secondChart.options} series={secondChart.series} type="pie" width={480} />
+          <div className="flex justify-center items-center">
+            <div className="grid grid-cols-2 pr-10 border-r mr-4 border-gray-200">
+              <div className="p-6 border-r border-b border-gray-200">
+                <BigNumberLabel
+                  label="Total"
+                  bigNumber={vehiclesData?.length}
+                />
+              </div>
+              <div className="p-6 border-b border-gray-200">
+                <BigNumberLabel
+                  label="Sem status"
+                  bigNumber={vehiclesData?.filter((eachVehicle) => !eachVehicle.is_active && !eachVehicle.is_online).length}
+                />
+              </div>
+              <div className="p-6 border-r border-gray-200">
+                <BigNumberLabel
+                  label="Ativos"
+                  bigNumber={vehiclesData?.filter((eachVehicle) => eachVehicle.is_active).length}
+                />
+              </div>
+              <div className="p-6">
+                <BigNumberLabel
+                  label="Online"
+                  bigNumber={vehiclesData?.filter((eachVehicle) => eachVehicle.is_online).length}
+                />
+              </div>
+            </div>
+            <Chart options={firstChart.options} series={firstChart.series} type="donut" width={380} height={380} />
           </div>
         </section>
 
         <section className="w-full max-w-[1220px] mx-auto bg-white rounded-lg shadow-lg p-6 mt-10">
+          <Badge variation={screenFeedback.type} size="md" mode="fixed" visibility={screenFeedback.visible}>
+            {screenFeedback.message}
+          </Badge>
+
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-2xl font-semibold">Veículos</h2>
 
@@ -120,8 +156,8 @@ export default function Home() {
                     <td className="py-4 px-4">{vehicle.codigo}</td>
                     <td>{vehicle.user}</td>
                     <td>{vehicle.placa}</td>
-                    <td>{vehicle.ultimo_rastreamento}</td>
-                    <td>{vehicle.ultima_data}</td>
+                    <td>{vehicle.ultimo_rastreamento && datetimeToString(vehicle.ultimo_rastreamento)}</td>
+                    <td>{vehicle.ultima_data && datetimeToString(vehicle.ultima_data)}</td>
                     <td>{vehicle.ultima_latitude}</td>
                     <td>{vehicle.ultima_longitude}</td>
                     <td>

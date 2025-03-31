@@ -26,7 +26,7 @@ const Button = ({
       onClick={onClick}
       disabled={disabled}
       className={clsx(
-        'flex items-center justify-center cursor-pointer rounded-md',
+        'flex items-center justify-center cursor-pointer rounded-md transition duration-300 ease-in-out',
         {
           'px-3 py-2 gap-2 text-xs': size === 'xs',
           'px-4 py-2 gap-2 text-sm': size === 'sm',
@@ -48,7 +48,7 @@ const Button = ({
       {...props}
     >
       {getPrefix()}
-      {text && <span>{text}</span>}
+      {text && <span className='transition duration-300 ease-in-out'>{text}</span>}
     </button>
   );
 }

@@ -37,7 +37,7 @@ const Input = ({
   return (
     <label
       className={clsx(
-        'flex px-3 items-center gap-2 rounded-md bg-gray-50 border relative',
+        'flex px-3 items-center gap-2 rounded-md bg-gray-50 border relative transition duration-300 ease-in-out',
         {
           'border-gray-300 focus-within:ring-blue-500 focus-within:border-blue-500 hover:border-blue-500': !(error),
           'border-red-500 focus-within:border-red-500 hover:border-red-500': error,
@@ -53,10 +53,10 @@ const Input = ({
 
       <input
         className={clsx(
-          'w-full py-2 text-sm text-gray-900 placeholder:text-gray-400 border-none outline-none',
+          'w-full py-2 text-sm text-gray-900 placeholder:text-gray-400 border-none outline-none transition duration-300 ease-in-out',
         )}
         type={showPassword ? 'text' : type}
-        value={value}
+        value={value || ""}
         onChange={onChange}
         placeholder={placeholder}
         onBlur={onBlur}

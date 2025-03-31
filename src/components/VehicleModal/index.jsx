@@ -5,22 +5,28 @@ import useVehicleModal from './useVehicleModal';
 import Input from '../Input';
 import clsx from 'clsx';
 import Toggle from '../Toggle';
+import Badge from '../Badge';
+import { datetimeToDate } from '@/utils/dateFormat';
 
 const VehicleModal = ({
   vehicleToEdit,
   openModal,
   onClose,
+  loadVehicles,
+  setScreenFeedback,
 }) => {
   const {
     handleCreateVehicle,
+    handleUpdateVehicle,
     submitLoading,
     vehicleData,
     handleChange,
-  } = useVehicleModal(openModal, vehicleToEdit);
+    submitError,
+  } = useVehicleModal(openModal, vehicleToEdit, onClose, loadVehicles, setScreenFeedback);
   
   return (
     <div className={clsx(
-      "fixed inset-0 z-997 min-h-full overflow-y-auto overflow-x-hidden transition flex items-center",
+      "fixed inset-0 z-997 min-h-full overflow-y-auto overflow-x-hidden transition flex items-center transition duration-300 ease-in-out",
       {
         "opacity-0 pointer-events-none": !openModal,
         "opacity-100 pointer-events-auto": openModal
@@ -88,14 +94,14 @@ const VehicleModal = ({
             <div className='flex gap-4'>
               <Toggle
                 auxLabel="Ativo"
-                value={vehicleData.ativo}
-                onChange={(value) => handleChange('ativo', value)}
+                active={vehicleData.is_active}
+                onChange={() => handleChange('is_active', !vehicleData.is_active)}
                 variation="primary"
               />
               <Toggle
                 auxLabel="Online"
-                value={vehicleData.online}
-                onChange={(value) => handleChange('online', value)}
+                active={vehicleData.is_online}
+                onChange={() => handleChange('is_online', !vehicleData.is_online)}
               />
             </div>              
           </div>
@@ -103,9 +109,13 @@ const VehicleModal = ({
             auxLabel="Último Rastreamento"
             type="date"
             placeholder="Último Rastreamento"
-            value={vehicleData.ultimo_rastreamento}
+            value={vehicleData.ultimo_rastreamento ? datetimeToDate(vehicleData.ultimo_rastreamento) : ''}
             onChange={({ target }) => handleChange('ultimo_rastreamento', target.value)}
           />
+        </div>
+
+        <div className="px-6 my-2 text-center">
+          <Badge visibility={submitError}><p>{submitError}</p></Badge>
         </div>
 
         <div aria-hidden="true" className="border-t border-gray-300 px-2 my-2 mt-4"></div>
@@ -113,8 +123,9 @@ const VehicleModal = ({
         <div className="px-6 py-2 flex gap-2 justify-end">
           <Button variation="border" text="Cancelar" onClick={onClose} />
           <Button
+            disabled={!vehicleData.codigo || !vehicleData.placa}
             text={vehicleToEdit ? "Editar" : "Criar"}
-            onClick={handleCreateVehicle}
+            onClick={vehicleToEdit ? handleUpdateVehicle : handleCreateVehicle}
             loading={submitLoading}
           />
         </div>
