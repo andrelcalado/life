@@ -3,7 +3,7 @@
 import React from "react";
 import { DashboardProvider } from "./useDashboard";
 import Header from "@/components/Header";
-import Dashboard from "./dashboard";
+import Dashboard from "./Dashboard";
 
 export default function Home() {
   return (
