@@ -4,7 +4,6 @@ import React from 'react'
 import Image from "next/image";
 import { useDashboard, useDashboardContext } from "./useDashboard";
 import { IoMdAdd } from "react-icons/io";
-import { GrUpdate } from "react-icons/gr";
 import { FaEye } from "react-icons/fa";
 import { MdEdit, MdDelete } from "react-icons/md";
 import Loading from "@/components/Loading";
@@ -54,7 +53,7 @@ const Dashboard = () => {
     <>
       <Loading fixed size="lg" loading={screenLoading} />
 
-      <main className="w-full h-full bg-gray-100 pt-[76px] pb-10 px-5 sm:px-10 ">
+      <main className="w-full h-full bg-gray-100 pt-[76px] pb-10 px-5 sm:px-10">
         <ConfirmDialog {...confirmDialog} />
         <VehicleModal
           vehicleToEdit={vehicleToEdit}
@@ -117,9 +116,6 @@ const Dashboard = () => {
                   }}
                   prefix={<IoMdAdd size={15} />}
                 />
-              </li>
-              <li>
-                <Button className="max-h-[31px]" variation="border" prefix={<GrUpdate size={15} />} />
               </li>
             </ul>
           </div>

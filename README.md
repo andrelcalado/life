@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<p align="left">
+    <img src="./public/assets/images/logo-sm.png" width="40" />
+</p>
 
-## Getting Started
+# Life
 
-First, run the development server:
+[![Author](https://img.shields.io/badge/author-AndreLuis-0052a6?style=flat-square)](https://github.com/andrelcalado)
+[![Languages](https://img.shields.io/github/languages/count/andrelcalado/life?color=%230052a6&style=flat-square)](#)
+[![Stars](https://img.shields.io/github/stars/andrelcalado/life?color=0052a6&style=flat-square)](https://github.com/andrelcalado/life/stargazers)
 
+---
+<p align="center" style="display: grid; grid-template-columns: repeat(2, 1fr);">
+   <img src="./.github/docs/images/print-0.png" width="680"/>
+   <img src="./.github/docs/images/print-1.png" width="680"/>
+   <img src="./.github/docs/images/print-2.png" width="680"/>
+   <img src="./.github/docs/images/print-3.png" width="680"/>
+</p>
+
+<p align="center">
+   <a href="https://life-test.vercel.app/">Projeto in-live 🎉</a>
+</p>
+
+---
+
+# :pushpin: Sumário
+
+* [Requerimentos](#wrench-requerimentos)
+* [Rodando Localmente](#rocket-rodando-localmente)
+
+## :wrench: Requerimentos
+
+1. Node v18^. [[Instale aqui]](https://nodejs.org/en/download)
+
+2. Google Maps API Key. [[Consiga aqui]](https://console.cloud.google.com/google/maps-apis/credentials)
+
+3. Copie o arquivo de exemplo
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cp .env.example .env.local
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Abra o arquivo `.env.local` e insira sua chave da API do Google Maps na variável `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY`
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+5. Instale todas as dependências
+```bash
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## :rocket: Rodando Localmente
 
-## Learn More
+Após finalizar todos os [requesitos](#wrench-requerimentos), execute o comando:
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+yarn run dev
+```
