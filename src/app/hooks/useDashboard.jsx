@@ -21,7 +21,7 @@ export const DashboardProvider = ({ children }) => {
   const [screenFeedback, setScreenFeedback] = useState(INITIAL_SCREEN_FEEDBACK);
   const [screenLoading, setScreenLoading] = useState(true);
   const [vehiclesData, setVehiclesData] = useState([]);
-  const { accessToken } = useAuthStore();
+  const { checkAuth, accessToken } = useAuthStore();
 
   const loadVehicles = async () => {
     setScreenLoading(true);
