@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext, createContext } from 'react'
 import { redirect } from 'next/navigation';
-import { userStore } from '@/store/user'
+import useAuthStore from '@/store/user'
 
 const INITIAL_SCREEN_FEEDBACK = {
   type: 'success',
@@ -21,7 +21,7 @@ export const DashboardProvider = ({ children }) => {
   const [screenFeedback, setScreenFeedback] = useState(INITIAL_SCREEN_FEEDBACK);
   const [screenLoading, setScreenLoading] = useState(true);
   const [vehiclesData, setVehiclesData] = useState([]);
-  const user = userStore((state) => state.user);
+  const { accessToken } = useAuthStore();
 
   const loadVehicles = async () => {
     setScreenLoading(true);
@@ -31,7 +31,7 @@ export const DashboardProvider = ({ children }) => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${user.access}`,
+          'Authorization': `Bearer ${accessToken}`,
         },
       });
 
@@ -64,7 +64,7 @@ export const DashboardProvider = ({ children }) => {
 export const useDashboardContext = () => useContext(DashboardContext);
 
 export const useDashboard = () => {
-  const user = userStore((state) => state.user);
+  const { accessToken } = useAuthStore();
   const {
     setScreenFeedback,
     vehiclesData,
@@ -134,7 +134,7 @@ export const useDashboard = () => {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${user.access}`,
+          'Authorization': `Bearer ${accessToken}`,
         },
         body: JSON.stringify({ id: vehicleID }),
       });
@@ -164,10 +164,6 @@ export const useDashboard = () => {
   }
 
   useEffect(() => {
-    if (!user) {
-      redirect('/login');
-    }
-
     loadVehicles();
   }, []);  
 

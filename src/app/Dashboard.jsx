@@ -2,7 +2,7 @@
 
 import React, { Suspense } from 'react'
 import Image from "next/image";
-import { useDashboard, useDashboardContext } from "./providers/useDashboard";
+import { useDashboard, useDashboardContext } from "./hooks/useDashboard";
 import { IoMdAdd } from "react-icons/io";
 import { FaEye } from "react-icons/fa";
 import { MdEdit, MdDelete } from "react-icons/md";

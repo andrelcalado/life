@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { userStore } from '@/store/user';
-import { useDashboardContext } from '@/app/providers/useDashboard';
+import useAuthStore from '@/store/user';
+import { useDashboardContext } from '@/app/hooks/useDashboard';
 
 const VEHICLE_DATA_INITIAL_STATE = {
   codigo: '',
@@ -15,7 +15,7 @@ const VEHICLE_DATA_INITIAL_STATE = {
 }
 
 const useVehicleModal = (openModal, vehicleToEdit, onClose) => {
-  const user = userStore((state) => state.user);
+  const { accessToken } = useAuthStore();
   const { setScreenFeedback, loadVehicles } = useDashboardContext();
   const [submitError, setSubmitError] = useState("");
   const [submitLoading, setSubmitLoading] = useState(false);
@@ -49,7 +49,7 @@ const useVehicleModal = (openModal, vehicleToEdit, onClose) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${user.access}`,
+          'Authorization': `Bearer ${accessToken}`,
         },
         body: JSON.stringify(vehicleData),
       });
@@ -84,7 +84,7 @@ const useVehicleModal = (openModal, vehicleToEdit, onClose) => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${user.access}`,
+          'Authorization': `Bearer ${accessToken}`,
         },
         body: JSON.stringify(vehicleData),
       });

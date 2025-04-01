@@ -1,15 +1,12 @@
 "use client";
 
-import { userStore } from '@/store/user';
-import { useRouter } from 'next/navigation';
+import useAuthStore from '@/store/user';
 
 const useHeader = () => {
-  const updateUser = userStore((state) => state.updateUser);
-  const router = useRouter();
+  const { logout } = useAuthStore();
 
   const handleLogout = () => {
-    updateUser(undefined);
-    router.push('/login');
+    logout();
   }
     
   return {

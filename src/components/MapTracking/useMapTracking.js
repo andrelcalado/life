@@ -1,9 +1,7 @@
-import { userStore } from '@/store/user';
 import { useEffect, useRef } from 'react'
 import { Loader } from '@googlemaps/js-api-loader';
 
 const useMaptracking = (vehicleID, latitude, longitude) => {
-  const user = userStore((state) => state.user);
   const center = { lat: latitude, lng: longitude };
   const mapRef = useRef(null);
 
