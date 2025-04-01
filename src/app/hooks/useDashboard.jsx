@@ -25,6 +25,8 @@ export const DashboardProvider = ({ children }) => {
 
   const loadVehicles = async () => {
     setScreenLoading(true);
+
+    await checkAuth();
     
     try {
       const response = await fetch('/api/vehicles', {
@@ -165,6 +167,8 @@ export const useDashboard = () => {
 
   useEffect(() => {
     loadVehicles();
+    const interval = setInterval(fetchData, 5000);
+    return () => clearInterval(interval);
   }, []);  
 
   return {

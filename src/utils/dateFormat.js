@@ -5,5 +5,5 @@ export const datetimeToDate = (datetime) => {
 
 export const datetimeToString = (datetime) => {
   const date = new Date(datetime);
-  return date.toLocaleDateString();
+  return date.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
 }

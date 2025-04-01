@@ -4,6 +4,7 @@ import React, { Suspense } from 'react'
 import Image from "next/image";
 import { useDashboard, useDashboardContext } from "./hooks/useDashboard";
 import { IoMdAdd } from "react-icons/io";
+import { TfiReload } from "react-icons/tfi";
 import { FaEye } from "react-icons/fa";
 import { MdEdit, MdDelete } from "react-icons/md";
 import Loading from "@/components/Loading";
@@ -119,6 +120,12 @@ export default function Dashboard() {
                     setVehicleModal(true);
                   }}
                   prefix={<IoMdAdd size={15} />}
+                />
+              </li>
+              <li>
+                <Button
+                  prefix={!screenLoading && <IoMdRefresh size={15} />}
+                  onClick={loadVehicles}
                 />
               </li>
             </ul>
