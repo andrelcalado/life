@@ -47,7 +47,7 @@ npm install
 
 ## :rocket: Rodando Localmente
 
-Após finalizar todos os [requesitos](#wrench-requerimentos), execute o comando:
+Após finalizar todos os [requisitos](#wrench-requerimentos), execute o comando:
 
 ```bash
 yarn run dev

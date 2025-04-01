@@ -19,7 +19,7 @@ const DashboardContext = createContext();
 
 export const DashboardProvider = ({ children }) => {
   const [screenFeedback, setScreenFeedback] = useState(INITIAL_SCREEN_FEEDBACK);
-  const [screenLoading, setScreenLoading] = useState(false);
+  const [screenLoading, setScreenLoading] = useState(true);
   const [vehiclesData, setVehiclesData] = useState([]);
   const user = userStore((state) => state.user);
 
