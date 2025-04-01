@@ -24,7 +24,7 @@ const Button = ({
   return (
     <button
       onClick={onClick}
-      disabled={disabled}
+      disabled={disabled || loading}
       className={clsx(
         'flex items-center justify-center cursor-pointer rounded-md transition duration-300 ease-in-out',
         {
