@@ -20,11 +20,12 @@ const DashboardContext = createContext();
 export const DashboardProvider = ({ children }) => {
   const [screenFeedback, setScreenFeedback] = useState(INITIAL_SCREEN_FEEDBACK);
   const [screenLoading, setScreenLoading] = useState(true);
+  const [dashboardLoading, setDashboardLoading] = useState(true);
   const [vehiclesData, setVehiclesData] = useState([]);
   const { checkAuth, accessToken } = useAuthStore();
 
   const loadVehicles = async () => {
-    setScreenLoading(true);
+    setDashboardLoading(true);
 
     await checkAuth();
     
@@ -45,6 +46,7 @@ export const DashboardProvider = ({ children }) => {
       console.error('Erro ao carregar veículos:', error);
     } finally {
       setScreenLoading(false);
+      setDashboardLoading(false);
     }
   }
 
@@ -54,6 +56,7 @@ export const DashboardProvider = ({ children }) => {
     loadVehicles,
     vehiclesData,
     screenLoading,
+    dashboardLoading,
   };
 
   return (

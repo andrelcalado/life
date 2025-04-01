@@ -26,6 +26,7 @@ export default function Dashboard() {
     setScreenFeedback,
     loadVehicles,
     screenLoading,
+    dashboardLoading,
   } = useDashboardContext();
 
   const {
@@ -124,8 +125,9 @@ export default function Dashboard() {
               </li>
               <li>
                 <Button
-                  prefix={!screenLoading ? <TfiReload size={15} /> : undefined}
+                  prefix={!dashboardLoading ? <TfiReload size={15} /> : undefined}
                   onClick={loadVehicles}
+                  loading={dashboardLoading}
                 />
               </li>
             </ul>
