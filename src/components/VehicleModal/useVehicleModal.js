@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { userStore } from '@/store/user';
-import { useDashboardContext } from '@/app/useDashboard';
+import { useDashboardContext } from '@/app/providers/useDashboard';
 
 const VEHICLE_DATA_INITIAL_STATE = {
   codigo: '',

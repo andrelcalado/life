@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { DashboardProvider } from "./useDashboard";
+import { DashboardProvider } from "./providers/useDashboard";
 import Header from "@/components/Header";
 import Dashboard from "./Dashboard";
 

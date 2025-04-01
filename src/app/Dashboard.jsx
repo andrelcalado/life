@@ -1,8 +1,8 @@
 "use client";
 
-import React from 'react'
+import React, { Suspense } from 'react'
 import Image from "next/image";
-import { useDashboard, useDashboardContext } from "./useDashboard";
+import { useDashboard, useDashboardContext } from "./providers/useDashboard";
 import { IoMdAdd } from "react-icons/io";
 import { FaEye } from "react-icons/fa";
 import { MdEdit, MdDelete } from "react-icons/md";
@@ -61,7 +61,9 @@ export default function Dashboard() {
           onClose={() => setVehicleModal(false)}
           loadVehicles={loadVehicles}
         />
-        <MapTracking onClose={handleCloseMapTracking} {...mapTracking} />
+        <Suspense fallback={<Loading size="md" />}>
+          <MapTracking onClose={handleCloseMapTracking} {...mapTracking} />
+        </Suspense>
 
         <section className="w-full max-w-[750px] mx-auto bg-white rounded-lg shadow-lg p-6 mt-10">
           <h2 className="text-2xl font-semibold text-center mb-6">
@@ -95,7 +97,9 @@ export default function Dashboard() {
                 />
               </div>
             </div>
-            <Chart options={firstChart.options} series={firstChart.series} type="donut" width={380} height={380} />
+            <Suspense fallback={<Loading size="md" />}>
+              <Chart options={firstChart.options} series={firstChart.series} type="donut" width={380} height={380} />
+            </Suspense>
           </div>
         </section>
 
@@ -133,94 +137,96 @@ export default function Dashboard() {
             </p>
           </div>
 
-          {vehiclesDataFiltered.length > 0 ? (
-            <div className="relative relative after:h-full after:w-[30px] after:pointer-events-none after:from-transparent after:to-white after:absolute after:top-0 after:right-0 max-[1100px]:after:content-[''] max-[1100px]:after:bg-gradient-to-r">
-              <div className="max-w-full overflow-x-auto">
-                <table className="w-full min-w-[970px]">
-                  <thead>
-                    <tr className="bg-gray-200 text-sm font-medium text-gray-800 rounded-lg overflow-hidden">
-                      <td className="py-3 px-2">Código</td>
-                      <td>Motorista</td>
-                      <td>Placa</td>
-                      <td>Último rastreamento</td>
-                      <td>Última data</td>
-                      <td>Última latitude</td>
-                      <td>Última longitude</td>
-                      <td>Ativo</td>
-                      <td>Online</td>
-                      <td>Ações</td>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    {vehiclesDataFiltered.map((vehicle, key) => (
-                      <tr key={key} className="text-sm pb-2 border-b border-gray-200 text-gray-700">
-                        <td className="py-4 px-4">{vehicle.codigo}</td>
-                        <td>{vehicle.user}</td>
-                        <td>{vehicle.placa}</td>
-                        <td>{vehicle.ultimo_rastreamento && datetimeToString(vehicle.ultimo_rastreamento)}</td>
-                        <td>{vehicle.ultima_data && datetimeToString(vehicle.ultima_data)}</td>
-                        <td>{vehicle.ultima_latitude}</td>
-                        <td>{vehicle.ultima_longitude}</td>
-                        <td>
-                          <Toggle active={vehicle.is_active} variation="primary" />
-                        </td>
-                        <td>
-                          <Toggle active={vehicle.is_online} />
-                        </td>
-                        <td className="flex gap-1 py-2">
-                          <Button
-                            size="xs"
-                            prefix={<MdEdit size={15} />}
-                            onClick={() => {
-                              setVehicleToEdit(vehicle);
-                              setVehicleModal(true);
-                            }}
-                          />
-                          <Button
-                            size="xs"
-                            variation="border"
-                            prefix={<FaEye size={15} />}
-                            onClick={() => handleOpenMapTracking(vehicle)}
-                            disabled={!vehicle.ultima_latitude || !vehicle.ultima_longitude}
-                          />
-                          <Button
-                            size="xs"
-                            variation="solid-dangerous"
-                            prefix={<MdDelete size={15} />}
-                            onClick={() => {
-                              setConfirmDialog((prev) => ({
-                                ...prev,
-                                openDialog: true,
-                                confirmButton: { onClick: () => handleDeleteVehicle(vehicle.id), loading: false, text: 'Confirmar' },
-                                title: 'Excluir veículo',
-                                desc: `Tem certeza que deseja excluir o veículo ${vehicle.codigo}?`
-                              }));
-                            }}
-                          />
-                        </td>
+          <Suspense fallback={<Loading size="md" />}>
+            {vehiclesDataFiltered.length > 0 ? (
+              <div className="relative relative after:h-full after:w-[30px] after:pointer-events-none after:from-transparent after:to-white after:absolute after:top-0 after:right-0 max-[1100px]:after:content-[''] max-[1100px]:after:bg-gradient-to-r">
+                <div className="max-w-full overflow-x-auto">
+                  <table className="w-full min-w-[970px]">
+                    <thead>
+                      <tr className="bg-gray-200 text-sm font-medium text-gray-800 rounded-lg overflow-hidden">
+                        <td className="py-3 px-2">Código</td>
+                        <td>Motorista</td>
+                        <td>Placa</td>
+                        <td>Último rastreamento</td>
+                        <td>Última data</td>
+                        <td>Última latitude</td>
+                        <td>Última longitude</td>
+                        <td>Ativo</td>
+                        <td>Online</td>
+                        <td>Ações</td>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+
+                    <tbody>
+                      {vehiclesDataFiltered.map((vehicle, key) => (
+                        <tr key={key} className="text-sm pb-2 border-b border-gray-200 text-gray-700">
+                          <td className="py-4 px-4">{vehicle.codigo}</td>
+                          <td>{vehicle.user}</td>
+                          <td>{vehicle.placa}</td>
+                          <td>{vehicle.ultimo_rastreamento && datetimeToString(vehicle.ultimo_rastreamento)}</td>
+                          <td>{vehicle.ultima_data && datetimeToString(vehicle.ultima_data)}</td>
+                          <td>{vehicle.ultima_latitude}</td>
+                          <td>{vehicle.ultima_longitude}</td>
+                          <td>
+                            <Toggle active={vehicle.is_active} variation="primary" />
+                          </td>
+                          <td>
+                            <Toggle active={vehicle.is_online} />
+                          </td>
+                          <td className="flex gap-1 py-2">
+                            <Button
+                              size="xs"
+                              prefix={<MdEdit size={15} />}
+                              onClick={() => {
+                                setVehicleToEdit(vehicle);
+                                setVehicleModal(true);
+                              }}
+                            />
+                            <Button
+                              size="xs"
+                              variation="border"
+                              prefix={<FaEye size={15} />}
+                              onClick={() => handleOpenMapTracking(vehicle)}
+                              disabled={!vehicle.ultima_latitude || !vehicle.ultima_longitude}
+                            />
+                            <Button
+                              size="xs"
+                              variation="solid-dangerous"
+                              prefix={<MdDelete size={15} />}
+                              onClick={() => {
+                                setConfirmDialog((prev) => ({
+                                  ...prev,
+                                  openDialog: true,
+                                  confirmButton: { onClick: () => handleDeleteVehicle(vehicle.id), loading: false, text: 'Confirmar' },
+                                  title: 'Excluir veículo',
+                                  desc: `Tem certeza que deseja excluir o veículo ${vehicle.codigo}?`
+                                }));
+                              }}
+                            />
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
-            </div>
-          ) : (
-            <div className="w-full flex flex-col items-center justify-center bg-gray-50 py-4 px-4 text-center rounded-lg border-dashed border-2 pt-0 border-gray-300">
-              <Image
-                src={search.length > 0 ? "/assets/images/not-found.svg" : "/assets/images/empty-data.svg"}
-                alt="Dados vazios"
-                width={300}
-                height={300}
-              />
-              <h3 className="text-md font-semibold text-gray-700 sm:text-lg">
-                {search.length > 0 ? "Nenhum veículo encontrado" : "Nenhum veículo cadastrado"}
-              </h3>
-              <p className="max-w-[300px] text-xs text-center sm:text-sm">
-                {search.length > 0 ? "Verifique os dados informados ou cadastre um novo veículo" : 'Clique em "Cadastrar" para cadastrar um veículo'}
-              </p>
-            </div>
-          )}
+            ) : (
+              <div className="w-full flex flex-col items-center justify-center bg-gray-50 py-4 px-4 text-center rounded-lg border-dashed border-2 pt-0 border-gray-300">
+                <Image
+                  src={search.length > 0 ? "/assets/images/not-found.svg" : "/assets/images/empty-data.svg"}
+                  alt="Dados vazios"
+                  width={300}
+                  height={300}
+                />
+                <h3 className="text-md font-semibold text-gray-700 sm:text-lg">
+                  {search.length > 0 ? "Nenhum veículo encontrado" : "Nenhum veículo cadastrado"}
+                </h3>
+                <p className="max-w-[300px] text-xs text-center sm:text-sm">
+                  {search.length > 0 ? "Verifique os dados informados ou cadastre um novo veículo" : 'Clique em "Cadastrar" para cadastrar um veículo'}
+                </p>
+              </div>
+            )}
+          </Suspense>
         </section>
       </main>
     </>
