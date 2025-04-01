@@ -124,7 +124,7 @@ export default function Dashboard() {
               </li>
               <li>
                 <Button
-                  prefix={!screenLoading && <IoMdRefresh size={15} />}
+                  prefix={!screenLoading ? <TfiReload size={15} /> : undefined}
                   onClick={loadVehicles}
                 />
               </li>
