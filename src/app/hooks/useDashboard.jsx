@@ -167,9 +167,9 @@ export const useDashboard = () => {
 
   useEffect(() => {
     loadVehicles();
-    const interval = setInterval(fetchData, 5000);
+    const interval = setInterval(loadVehicles, 5000);
     return () => clearInterval(interval);
-  }, []);  
+  }, []);
 
   return {
     search,
